@@ -12,7 +12,7 @@ ALTURA = 820
 
 relogio = pygame.time.Clock()
 
-
+out_screen = -100
 
 buffCoracao = pygame.image.load('./assets/CoraçãoPixel.png')
 buffArmamento = pygame.image.load('./assets/ArmaPixel.png')
@@ -22,6 +22,12 @@ imagemFundo = pygame.image.load('./assets/fundo.jpg')
 gameIcon = pygame.image.load('./assets/icon.png')
 pygame.display.set_icon(gameIcon)
 
+altura_imagem = buffBonus.get_height()
+largura_imagem = buffBonus.get_width()
+
+altura_nave = nave.get_height()
+largura_nave = nave.get_width()
+
 tela = pygame.display.set_mode((LARGURA,ALTURA))
 pygame.display.set_caption("Space Invaders")
 
@@ -30,6 +36,8 @@ class Nave():
     def __init__(self):
         self.x = LARGURA/2 - 50
         self.y = ALTURA - 150
+        self.h = altura_nave
+        self.w = largura_nave
 
     def aparecer(self):
         tela.blit(nave, (self.x, self.y))
@@ -48,6 +56,8 @@ class Buffs():
     def __init__(self):
         self.x = 0
         self.y = -100
+        self.h = altura_imagem
+        self.w = largura_imagem
         
 
     def descer(self):
@@ -72,6 +82,8 @@ class Buffs():
         tela.blit(buffBonus, (self.x, self.y))
 
 
+def colisao(a, b):
+    return a.x + a.w > b.x and a.x < b.x + b.w and a.y + a.h > b.y and a.y < b.y + b.h
 
 
 buffzinho = Buffs()
@@ -111,9 +123,9 @@ while True:
 
     elif contador >= 2400:
         contador = 0
-        
-    
-    
+
+    if colisao(buffzinho, navezinha):
+        buffzinho.x = out_screen
 
     contador += 1
     buffzinho.ajuste()
