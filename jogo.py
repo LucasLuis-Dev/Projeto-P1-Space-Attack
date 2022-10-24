@@ -45,12 +45,10 @@ while True:
     
     relogio.tick(60)
     tela.blit(imagemFundo, (0,0))
+    print(buffs.tempoAparecimento)
     
 
-    # Mensagem dos pontos
-    mensagemPontos = "Pontos: "
-    textoFormatadoPontos = fonteTextoGame.render(mensagemPontos, False, (255,255,255))
-    tela.blit(textoFormatadoPontos, (30, 30))
+    player.mostrarPontos(tela)
 
     
     for event in pygame.event.get():
@@ -86,6 +84,8 @@ while True:
 
     if player.buffEstrela():
         player.mostrarBuffEstrela(tela)
+
+    print(player.tempoBuffEstrela)
 
     
 

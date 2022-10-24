@@ -1,3 +1,4 @@
+from math import radians
 import pygame
 from random import randint, choice
 
@@ -11,7 +12,7 @@ class Buffs():
         self.tempoAparecimento = 0
         self.quedaBuff = False
         self.buffEscolhido = False
-        self.nomesBuffs = ['coracao','armamento','estrela']
+        self.nomesBuffs = ['armamento','estrela','coracao']
         self.buffCoracao = pygame.image.load('./assets/CoraçãoPixel.png')
         self.buffArmamento = pygame.image.load('./assets/ArmaPixel.png')
         self.buffEstrela = pygame.image.load('./assets/EstrelaPixel.png')
@@ -51,8 +52,6 @@ class Buffs():
         else:
             self.quedaBuff = False
             return True
-
-
     
     def escolhaBuff(self):
         escolha = self.nomesBuffs[randint(0,2)]
