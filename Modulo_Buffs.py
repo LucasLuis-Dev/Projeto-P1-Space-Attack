@@ -25,15 +25,15 @@ class Buffs():
             
             if elemento == 'coracao':
                 tela.blit(self.buffCoracao, (self.x, self.y))
-                self.y += 3
+                self.y += 4
 
             elif elemento == 'armamento':
                 tela.blit(self.buffArmamento, (self.x, self.y))
-                self.y += 3
+                self.y += 4
             
             elif elemento == 'estrela':
                 tela.blit(self.buffEstrela, (self.x, self.y))
-                self.y += 3
+                self.y += 4
 
         else:
             self.quedaBuff = True

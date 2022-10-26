@@ -2,7 +2,7 @@ import pygame
 
 class jogador():
     def __init__(self):
-        self.quantVidas = 1
+        self.quantVidas = 3
         self.pontuacao = 0
         self.objetosColidiveis = ['Buffs', 'Asteroides']
         self.buffsColetados = []
@@ -48,7 +48,6 @@ class jogador():
                     self.pontuacao += 10
 
          
-   
 
     def buffEstrela(self):
         if len(self.buffsColetados) > 0:
@@ -91,6 +90,11 @@ class jogador():
         if self.quantVidas < 3:
             self.quantVidas += 1
 
+    
+    def jogadorPerdeu(self):
+        if self.quantVidas == 0:
+            return True
+
 
 
 
@@ -107,10 +111,10 @@ class Nave():
         tela.blit(self.imagem, (self.x, self.y ))
 
     def andarEsquerda(self):
-        if self.x >= 0:
+        if self.x > 0:
             self.x -= 10
 
     def andarDireita(self):
-        if self.x <= 500:
+        if self.x <= 510:
             self.x += 10
 
