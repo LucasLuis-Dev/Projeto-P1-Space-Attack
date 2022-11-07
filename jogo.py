@@ -125,11 +125,6 @@ while True:
         if aparecimentoAsteroides >= 350:
             setimoAsteroide = True
 
-
-        print(primeiroAsteroide, segundoAsteroide, terceiroAsteroide, quartoAsteroide, quintoAsteroide, sextoAsteroide, setimoAsteroide)
-
-
-
         if primeiroAsteroide:
             ASTEROIDE_1.aparecerAsteroide(TELA)
 
