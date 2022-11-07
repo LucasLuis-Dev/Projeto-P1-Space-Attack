@@ -103,26 +103,31 @@ while True:
 
         NAVE.mostrarNave(TELA, PLAYER)
         PLAYER.vidasJogador(TELA)
-        if aparecimentoAsteroides == 50:
+
+        if aparecimentoAsteroides >= 50:
             primeiroAsteroide = True
-            
-        if aparecimentoAsteroides == 100:
+        
+        if aparecimentoAsteroides >= 100:
             segundoAsteroide = True
 
-        if aparecimentoAsteroides == 150:
+        if aparecimentoAsteroides >= 150:
             terceiroAsteroide = True
 
-        if aparecimentoAsteroides == 200:
+        if aparecimentoAsteroides >= 200:
             quartoAsteroide = True
 
-        if aparecimentoAsteroides == 250:
+        if aparecimentoAsteroides >= 250:
             quintoAsteroide = True
 
-        if aparecimentoAsteroides == 300:
+        if aparecimentoAsteroides >= 300:
             sextoAsteroide = True
 
-        if aparecimentoAsteroides == 350:
+        if aparecimentoAsteroides >= 350:
             setimoAsteroide = True
+
+
+        print(primeiroAsteroide, segundoAsteroide, terceiroAsteroide, quartoAsteroide, quintoAsteroide, sextoAsteroide, setimoAsteroide)
+
 
 
         if primeiroAsteroide:
