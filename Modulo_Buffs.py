@@ -23,7 +23,7 @@ class Buffs():
         """
             Mostra os buffs na tela, se eles não estiverem passado dos limites da tela
         """
-        if self.y < 900 and self.quedaBuff == False:
+        if self.y < 830 and self.quedaBuff == False:
             
             if elemento == 'coracao':
                 tela.blit(self.buffCoracao, (self.x, self.y))

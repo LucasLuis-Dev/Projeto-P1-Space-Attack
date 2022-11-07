@@ -4,9 +4,14 @@ class NaveInimiga():
     def __init__(self):
         self.nomeObjeto = 'Nave inimiga'
         self.imagemNave = pygame.image.load('./assets/NaveInimiga.png')
+        self.imagemExplosao = pygame.image.load("./assets/ExplosãoNave.png")
+        self.somExplosao = pygame.mixer.Sound('./Music/SomExplosaoNaveInimiga.wav')
+        self.tocarSomExplosao = True
+        self.explosao = False
         self.x = 250
         self.y = -10
         self.tempoAparecimento = 500
+        self.tempoExplosao = 40
         self.largura = self.imagemNave.get_width()
         self.altura = self.imagemNave.get_height()
 
@@ -19,6 +24,7 @@ class NaveInimiga():
         self.tempoAparecimento = 500
         self.x = 250
         self.y = -10
+        self.tempoExplosao = 40
 
 
     def tempoSurgimento(self):
@@ -33,42 +39,58 @@ class NaveInimiga():
             return True
 
 
-    def aparecerNaveInimiga(self,tela):
+    def aparecerNaveInimiga(self,tela, nave):
         """
-            Mostra a nave inimiga na tela 
+            Mostra a nave inimiga na tela e também mostra a sua animação de explosao caso a mesma seja atingida
         """
         # se a nave inimiga estiver acima da ela este if a faz descer dando uma animação a mais ao jogo
-        if self.y < 80:
-            self.y += 2
+        if self.explosao == False:
+            if self.y < 64:
+                self.y += 2
+            
             tela.blit(self.imagemNave, (self.x, self.y))
 
         else:
-            tela.blit(self.imagemNave, (self.x, self.y))
+            if self.tempoExplosao != 0:
+                tela.blit(self.imagemExplosao, (self.x, self.y))
+                self.tempoExplosao -= 1
+                if self.tocarSomExplosao:
+                    self.somExplosao.play()
+                    self.tocarSomExplosao = False
+
+            else:
+                self.explosao = False
+                self.tempoExplosao = 40
+                self.y = -120
+                self.x = nave.x
+                self.tocarSomExplosao = True
 
 
     def moverNaveInimigaEsquerda(self):
         """
             Move a nave inimiga para a esquerda
         """
-        if self.x > 0:
-            self.x -= 5
+        if self.explosao == False:
+            if self.x > 0:
+                self.x -= 7
 
     def moverNaveInimigaDireita(self):
         """
             Move a nave inimiga para a direita
         """
-        if self.x <= 510:
-            self.x += 5 
+        if self.explosao == False:
+            if self.x <= 510:
+                self.x += 7 
 
 
     
 
 class disparoNaveInimiga():
-    def __init__(self):
+    def __init__(self, naveInimiga):
         self.ImagemDisparo = pygame.image.load('./assets/DisparoNaveInimiga.png')
-        self.velocidade = 7
+        self.velocidade = 9
         self.y = 125
-        self.x = 265
+        self.x = naveInimiga.x + 15
         self.somDisparo = pygame.mixer.Sound('./Music/SomDisparo.wav')
         self.tocarSom = True
         self.tempoDisparo = 0
@@ -98,7 +120,7 @@ class disparoNaveInimiga():
         """
             Cálcula o momento de intervalo entre cada disparo da nave inimiga
         """
-        if naveInimiga.y == 80:
+        if naveInimiga.y == 64 and naveInimiga.explosao == False:
             if self.tempoDisparo != 0:
                 self.tempoDisparo -= 1
                 self.x = naveInimiga.x + 15
@@ -106,6 +128,9 @@ class disparoNaveInimiga():
 
             else:
                 return True
+
+        elif self.y > 125:
+            return True
             
             
     def ajusteDisparo(self, naveInimiga):
@@ -114,14 +139,10 @@ class disparoNaveInimiga():
         """
         if self.y > 900:
             self.y = 125
-            self.tempoDisparo = 30
+            self.tempoDisparo = 20
             self.tocarSom = True
 
-        if naveInimiga.y < 80:
-            self.tocarSom = True
-            self.y = 125
-
-
+    
     def ajusteTrajetoria(self, naveInimiga):
         """
             Impossibilita o diparo de se movimentar para os lados quando a nave se movimenta
@@ -132,13 +153,14 @@ class disparoNaveInimiga():
             self.x = naveInimiga.x + 15
 
 
-    def recomecarJogo(self):
+    def recomecarJogo(self, naveInimiga):
         """
             Reseta os atributos da classe para recomeçar o jogo
         """
         self.velocidade = 7
         self.y = 125
-        self.x = 265
+        self.x =  naveInimiga.x + 15
         self.tempoDisparo = 0
+        self.tocarSom = True
 
 

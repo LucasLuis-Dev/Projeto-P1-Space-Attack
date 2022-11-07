@@ -14,7 +14,7 @@ pygame.init()
 # CONSTANTES DO TAMANHO DA TELA DO JOGO
 
 LARGURA = 600
-ALTURA = 820
+ALTURA = 790
 
 
 # VARIAVEIS DE CONTROLE DO JOGO
@@ -37,7 +37,7 @@ pygame.display.set_icon(ICONEJOGO)
 # DEFINIÇÃO DA TELA E NOME DO JOGO
 
 TELA = pygame.display.set_mode((LARGURA,ALTURA))
-pygame.display.set_caption("Space Invaders")
+pygame.display.set_caption("Space Attack")
 
 # CONSTANTES DAS CLASSES UTILIZADAS NO JOGO
 
@@ -45,14 +45,15 @@ NAVE = Nave()
 PLAYER = jogador()
 BUFFS = Buffs()
 NAVEINIMIGA = NaveInimiga()
-DISPAROINIMIGO = disparoNaveInimiga()
+DISPAROINIMIGO = disparoNaveInimiga(NAVEINIMIGA)
 DISPAROPLAYER = DisparoNave()
 ASTEROIDE_1 = Asteroides()
 ASTEROIDE_2 = Asteroides()
 ASTEROIDE_3 = Asteroides()
 ASTEROIDE_4 = Asteroides()
 ASTEROIDE_5 = Asteroides()
- 
+ASTEROIDE_6 = Asteroides()
+
 
 # VARIAVEL DA MAQUINA DE ESTADOS DO JOGO
 
@@ -72,7 +73,7 @@ while True:
                 exit()
 
             elif event.type == KEYDOWN:
-                
+
                 # Verifica se o jogador quer iniciar o jogo e muda a maquina de estados
                 if event.key == K_SPACE:
                     estadoAtual = "Comecar jogo"
@@ -86,30 +87,30 @@ while True:
         
         # Verifica se o jogador perdeu o jogo
         if PLAYER.jogadorPerdeu():
-            estadoAtual = "Tela final"
-
+            if NAVE.explosaoNave():
+                estadoAtual = "Tela final"
+  
         # MOSTRA OS OBJETOS NA TELA
 
-        NAVE.mostrarNave(TELA)
+        NAVE.mostrarNave(TELA, PLAYER)
         PLAYER.vidasJogador(TELA)
         ASTEROIDE_1.aparecerAsteroide(TELA)
         ASTEROIDE_2.aparecerAsteroide(TELA)
-        ASTEROIDE_3.aparecerAsteroide(TELA)
+        ASTEROIDE_3.aparecerAsteroide(TELA) 
         ASTEROIDE_4.aparecerAsteroide(TELA)
         ASTEROIDE_5.aparecerAsteroide(TELA)
-        
+        ASTEROIDE_6.aparecerAsteroide(TELA)
 
         # Mostra a nave inimiga e seus disparos
         if NAVEINIMIGA.tempoSurgimento():
-            NAVEINIMIGA.aparecerNaveInimiga(TELA)
+            NAVEINIMIGA.aparecerNaveInimiga(TELA, NAVE)
  
-            # Mostra os disparos da nave inimiga na tela
-            if DISPAROINIMIGO.contadorDisparo(NAVEINIMIGA):
-                DISPAROINIMIGO.disparar(TELA)  
-               
-                DISPAROINIMIGO.ajusteTrajetoria(NAVEINIMIGA)
-                DISPAROINIMIGO.trajetoria()
-
+        # Mostra os disparos da nave inimiga na tela
+        if DISPAROINIMIGO.contadorDisparo(NAVEINIMIGA):
+            DISPAROINIMIGO.ajusteTrajetoria(NAVEINIMIGA)
+            DISPAROINIMIGO.trajetoria()
+            DISPAROINIMIGO.disparar(TELA)  
+            
         DISPAROINIMIGO.ajusteDisparo(NAVEINIMIGA)
 
         # Mostra os buffs na tela
@@ -140,11 +141,11 @@ while True:
 
         # Funcionamento das teclas para mover a nave
         if pygame.key.get_pressed()[K_LEFT]:
-            NAVE.andarEsquerda()    
+            NAVE.andarEsquerda(PLAYER)    
             NAVEINIMIGA.moverNaveInimigaEsquerda()
         
         elif pygame.key.get_pressed()[K_RIGHT]:
-            NAVE.andarDireita()
+            NAVE.andarDireita(PLAYER)
             NAVEINIMIGA.moverNaveInimigaDireita()
 
 
@@ -156,6 +157,8 @@ while True:
         PLAYER.colisaoNaveJogador(NAVE, ASTEROIDE_3)
         PLAYER.colisaoNaveJogador(NAVE, ASTEROIDE_4)
         PLAYER.colisaoNaveJogador(NAVE, ASTEROIDE_5)
+        PLAYER.colisaoNaveJogador(NAVE, ASTEROIDE_6)
+        NAVE.naveDanificada(TELA)
         
         
         if DISPAROPLAYER.apertouTecla():
@@ -165,6 +168,7 @@ while True:
             PLAYER.colisaoDisparoJogador(DISPAROPLAYER, ASTEROIDE_3)
             PLAYER.colisaoDisparoJogador(DISPAROPLAYER, ASTEROIDE_4)
             PLAYER.colisaoDisparoJogador(DISPAROPLAYER, ASTEROIDE_5)
+            PLAYER.colisaoDisparoJogador(DISPAROPLAYER, ASTEROIDE_6)
             
      
     
@@ -176,13 +180,13 @@ while True:
 
 
         if PLAYER.buffArmamento():
-            DISPAROPLAYER.dispararComBuff(TELA)
+            DISPAROPLAYER.dispararComBuff(TELA,PLAYER)
             DISPAROPLAYER.ajusteDisparo()
             DISPAROPLAYER.ajusteTrajetoriaComBuff(NAVE)
             DISPAROPLAYER.trajetoria()
 
         else:           
-            DISPAROPLAYER.disparar(TELA)
+            DISPAROPLAYER.disparar(TELA,PLAYER)
             DISPAROPLAYER.ajusteDisparo()
             DISPAROPLAYER.ajusteTrajetoria(NAVE)
             DISPAROPLAYER.trajetoria()
@@ -203,14 +207,16 @@ while True:
                 # Verifica se o jogador quer jogar novamente
                 if event.key == K_SPACE:
                     estadoAtual = "Comecar jogo"
-                    PLAYER.recomecarJogo()
+                    PLAYER.recomecarJogo(NAVE)
                     NAVEINIMIGA.recomecarJogo()
+                    DISPAROINIMIGO.recomecarJogo(NAVEINIMIGA)
 
                     ASTEROIDE_1.recomecarJogo()
                     ASTEROIDE_2.recomecarJogo()
                     ASTEROIDE_3.recomecarJogo()
                     ASTEROIDE_4.recomecarJogo()
                     ASTEROIDE_5.recomecarJogo()
+                    ASTEROIDE_6 .recomecarJogo()
                     
                     BUFFS.recomecarJogo()
 

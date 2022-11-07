@@ -1,4 +1,5 @@
 import pygame
+from random import randint
 
 class jogador():
     def __init__(self):
@@ -50,52 +51,54 @@ class jogador():
         """
             Verifica se o jogador colidiu com algum asteroide ou disparo inimigo e penaliza o mesmo
         """
-
         if nave.x + nave.largura > objeto.x and nave.x < objeto.x + objeto.largura and nave.y + nave.altura > objeto.y and nave.y < objeto.y + objeto.altura:
+            nave.colisao = [objeto.x, objeto.y]
             objeto.x = -110
+            nave.naveAtingida = True
+            
             if self.quantVidas > 0:
                 self.quantVidas -= 1
          
-
 
     def colisaoDisparoJogador(self, disparoJogador, objeto):
         """
             Verifica se o  disparo efetuado pelo jogador colidiu com algum asteroide ou nave inimiga
         """
+        if objeto.explosao == False and objeto.y > 5:
+            if disparoJogador.x + disparoJogador.largura > objeto.x and disparoJogador.x < objeto.x + objeto.largura and disparoJogador.y + disparoJogador.altura > objeto.y and disparoJogador.y < objeto.y + objeto.altura:
+                
 
-        if disparoJogador.x + disparoJogador.largura > objeto.x and disparoJogador.x < objeto.x + objeto.largura and disparoJogador.y + disparoJogador.altura > objeto.y and disparoJogador.y < objeto.y + objeto.altura:
-            objeto.y = -120
+                # Se o jogador estiver com o buff de Armamento o seu disparo recebe um bonus de destruição de itens na tela
+                if disparoJogador.coletouBuffArmamento:
+                    pass
 
-            # Se o jogador estiver com o buff de Armamento o seu disparo recebe um bonus de destruição de itens na tela
-            if disparoJogador.coletouBuffArmamento:
-                pass
-
-            else:
-                disparoJogador.x = -110
-                disparoJogador.y = -10
-
-            # Se o disparo do jogador colidir com  a nave inimiga ele receberá uma certa quantidade de pontos que pode ser duplicada caso ele estejá com o buff da estrela
-            if objeto.nomeObjeto == 'Nave inimiga':
-
-                if self.buffsColetados:
-                    if self.buffsColetados[-1] == 'estrela' and self.tempoBuffEstrela > 0:
-                        self.pontuacao += 100
-                    else:
-                        self.pontuacao += 50
                 else:
-                    self.pontuacao += 50
+                    disparoJogador.x = -110
+                    disparoJogador.y = -10
 
-                        
-            # Se o disparo do jogador colidir com algum asteroide ele receberá uma certa quantidade de pontos que pode ser duplicada caso ele estejá com o buff da estrela
-            elif objeto.nomeObjeto == 'Asteroide':
-                if disparoJogador.teclaApertada:
+                # Se o disparo do jogador colidir com  a nave inimiga ele receberá uma certa quantidade de pontos que pode ser duplicada caso ele estejá com o buff da estrela
+                if objeto.nomeObjeto == 'Nave inimiga' and objeto.explosao == False:
                     if self.buffsColetados:
                         if self.buffsColetados[-1] == 'estrela' and self.tempoBuffEstrela > 0:
+                            self.pontuacao += 100
+                        else:
                             self.pontuacao += 50
+                    else:
+                        self.pontuacao += 50
+
+                            
+                # Se o disparo do jogador colidir com algum asteroide ele receberá uma certa quantidade de pontos que pode ser duplicada caso ele estejá com o buff da estrela
+                elif objeto.nomeObjeto == 'Asteroide':
+                    if disparoJogador.teclaApertada and objeto.explosao == False:
+                        if self.buffsColetados:
+                            if self.buffsColetados[-1] == 'estrela' and self.tempoBuffEstrela > 0:
+                                self.pontuacao += 50
+                            else:
+                                self.pontuacao += 25
                         else:
                             self.pontuacao += 25
-                    else:
-                        self.pontuacao += 25
+
+                objeto.explosao = True
 
 
     def buffEstrela(self):
@@ -171,53 +174,106 @@ class jogador():
         fonteTextoGame = pygame.font.SysFont('arial', 30 , True, False)
         mensagemPontos = f"Pontuação alcançada: {self.pontuacao}"
         textoFormatadoPontos = fonteTextoGame.render(mensagemPontos, False, (255,255,255))
-        tela.blit(textoFormatadoPontos, (120, 310))
+        tela.blit(textoFormatadoPontos, (120, 410))
 
 
-    def recomecarJogo(self):
+    def recomecarJogo(self, nave):
         """
             Reseta os atributos para recomeçar o jogo
         """
         self.quantVidas = 3
         self.pontuacao = 0
         self.buffsColetados.clear()
+        
+        nave.tempoExplosao = 40
+        nave.naveAtingida = False
+        nave.tempoDanos = 30
 
 
 
 class Nave():
     def __init__(self):
         self.imagem = pygame.image.load("./assets/NavePixel.png")
-        self.mask = pygame.mask.from_surface(self.imagem)
+        self.imagemExplosao = pygame.image.load("./assets/ExplosãoNave.png")
+        self.imagemDanos = pygame.image.load("./assets/DanosNaveJogador.png")
+        self.somExplosao = pygame.mixer.Sound('./Music/SomMorteJogador.wav')
+        self.somDanos = pygame.mixer.Sound('./Music/SomExplosaoAsteroide.wav')
+        self.colisao = []
+        self.naveAtingida = False
+        self.tocarSomDanos = True
+        self.tocarSomExplosao = True
+        self.tempoExplosao = 40
+        self.tempoDanos = 30
         self.x = 250
-        self.y = 710
+        self.y = 670
         self.altura = self.imagem.get_height()
         self.largura = self.imagem.get_width()
 
 
     # METODOS DA CLASSE
 
-    def mostrarNave(self, tela):
+    def mostrarNave(self, tela, player):
         """
             Mostra a nave controlada pelo jogador na tela
         """
-        tela.blit(self.imagem, (self.x, self.y ))
+        if player.quantVidas != 0:
+            tela.blit(self.imagem, (self.x, self.y ))
+
+        else:
+            tela.blit(self.imagemExplosao, (self.x, self.y))
 
 
-    def andarEsquerda(self):
+    def andarEsquerda(self, player):
         """
             Movimenta a nave para a esquerda
         """
-        if self.x > 0:
-            self.x -= 7
+        if player.quantVidas != 0:
+            if self.x > 0:
+                self.x -= 7
 
 
-    def andarDireita(self):
+    def andarDireita(self,player):
         """
             Movimenta a nave para a direita
         """
-        if self.x <= 510:
-            self.x += 7
+        if player.quantVidas != 0:
+            if self.x <= 510:
+                self.x += 7
 
+    def explosaoNave(self):
+        '''
+            Reproduz o som de explosão da nave e contabiliza o tempo da sua animação de destruição
+        '''
+        if self.tempoExplosao != 0:
+            if self.tocarSomExplosao:
+                self.somExplosao.play()
+                self.tocarSomExplosao = False
+            self.tempoExplosao -= 1
+            return False
+        
+        else:
+            self.tocarSomExplosao = True
+            return True
+        
+    
+    def naveDanificada(self, tela):
+        '''
+            Exibi a animação de dano quando a nave do jogador é atingida
+        '''
+        if self.naveAtingida and self.tempoExplosao == 40:
+            posicaoAcerto = randint(self.x, self.x + 55)
+            if self.tempoDanos != 0:
+                tela.blit(self.imagemDanos, (posicaoAcerto, self.colisao[1] + 35))
+                self.tempoDanos -= 1
+                if self.tocarSomDanos:
+                    self.somDanos.play()
+                    self.tocarSomDanos = False
+
+            else:
+                self.naveAtingida = False
+                self.tocarSomDanos = True
+                self.tempoDanos = 30
+                self.colisao.clear()
 
 
 class DisparoNave():
@@ -229,8 +285,8 @@ class DisparoNave():
         self.teclaApertada = False
         self.coletouBuffArmamento = False
         self.x = 283 
-        self.y = 680 
-        self.velocidade = 7
+        self.y = 630
+        self.velocidade = 9
         self.largura = self.imagemDisparo.get_width()
         self.altura = self.imagemDisparo.get_height()
 
@@ -262,32 +318,34 @@ class DisparoNave():
             self.y = self.y - self.velocidade
 
 
-    def disparar(self, tela):
+    def disparar(self, tela, player):
         """
             Mostra o disparo efetuado pelo jogador sem estar buffado, e reproduz o som do disparo
         """
-        if self.teclaApertada:
-            self.coletouBuffArmamento = False
-            self.largura = self.imagemDisparo.get_width()
-            self.altura = self.imagemDisparo.get_height()
-            tela.blit(self.imagemDisparo, (self.x, self.y))
-            if self.tocarSom:
-                self.somDisparo.play()
-                self.tocarSom = False
+        if player.quantVidas > 0:
+            if self.teclaApertada:
+                self.coletouBuffArmamento = False
+                self.largura = self.imagemDisparo.get_width()
+                self.altura = self.imagemDisparo.get_height()
+                tela.blit(self.imagemDisparo, (self.x, self.y))
+                if self.tocarSom:
+                    self.somDisparo.play()
+                    self.tocarSom = False
 
 
-    def dispararComBuff(self, tela):
+    def dispararComBuff(self, tela, player):
         """
             Mostra o disparo efetuado pelo jogador estando buffado, e reproduz o som do disparo
         """
-        if self.teclaApertada:
-            self.coletouBuffArmamento = True
-            self.largura = self.imagemDisparoBuffado.get_width()
-            self.altura = self.imagemDisparoBuffado.get_height()
-            tela.blit(self.imagemDisparoBuffado, (self.x - 10, self.y - 95))
-            if self.tocarSom:
-                self.somDisparo.play()
-                self.tocarSom = False
+        if player.quantVidas > 0:
+            if self.teclaApertada:
+                self.coletouBuffArmamento = True
+                self.largura = self.imagemDisparoBuffado.get_width()
+                self.altura = self.imagemDisparoBuffado.get_height()
+                tela.blit(self.imagemDisparoBuffado, (self.x - 10, self.y - 95))
+                if self.tocarSom:
+                    self.somDisparo.play()
+                    self.tocarSom = False
             
 
     def ajusteDisparo(self):
@@ -295,7 +353,7 @@ class DisparoNave():
            Ajusta a posição do disparo para que outro possa ser efetuado
         """
         if self.y < 0:
-            self.y = 680
+            self.y = 630
             self.teclaApertada = False
             self.tocarSom = True
 
@@ -304,7 +362,7 @@ class DisparoNave():
         """
             Ajusta a trajetoria do disparo para que ela não se mova junto com a nave do jogador
         """
-        if self.y != 680:
+        if self.y != 630:
             pass
         else:
             self.x = nave.x + 33
@@ -314,7 +372,7 @@ class DisparoNave():
         """
             Ajusta a trajetoria do disparo buffado para que ela não se mova junto com a nave do jogador
         """
-        if self.y != 680:
+        if self.y != 630:
             pass
         else:
             self.x = nave.x + 23
