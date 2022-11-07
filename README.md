@@ -64,6 +64,23 @@ Conhecimentos aprendidos que foram colocados em prática no projeto foram:
 <br>
 
 <div style="display: inline;" >
+  <img style="width: 300px;" src="https://cdn.discordapp.com/attachments/965066624556232737/1039224359774064640/logo.png">
+  <h3>Visual Studio Code</h3>
+  <p>Essa IDE foi de suma importância para a criação do projeto como um todo, pois com ela foi possível a criação e edição de todas as linhas de código do jogo</p>
+</div>
+
+<br>
+
+<div style="display: inline;" >
+  <img style="width: 300px;" src="https://cdn.discordapp.com/attachments/965066624556232737/1039225599899750420/GitHub-Emblem.png">
+  <h3>Github</h3>
+  <p>O github foi de suma importância para o armazenamento do código e também para o trabalho em equipe como um todo por conta da facilidade em acessar códigos de colegas e também acessar versões antigas do mesmo</p>
+</div>
+
+
+<br>
+
+<div style="display: inline;" >
   <img style="width: 150px;" src="https://cdn.discordapp.com/attachments/965066624556232737/1039176496083906610/png-clipart-computer-icons-pro-git-github-logo-text-logo-thumbnail-removebg-preview.png">
   <h3>Git</h3>
   <p>A utilização do git para o versionamento do código foi crucial para um bom controle de versão e também para commitar nossos códigos para a nuvem</p>
