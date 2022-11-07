@@ -53,12 +53,21 @@ ASTEROIDE_3 = Asteroides()
 ASTEROIDE_4 = Asteroides()
 ASTEROIDE_5 = Asteroides()
 ASTEROIDE_6 = Asteroides()
-
+ASTEROIDE_7 = Asteroides()
 
 # VARIAVEL DA MAQUINA DE ESTADOS DO JOGO
 
 estadoAtual = "Tela inicial"
 
+
+aparecimentoAsteroides = 0
+primeiroAsteroide = False
+segundoAsteroide = False
+terceiroAsteroide = False
+quartoAsteroide = False
+quintoAsteroide = False
+sextoAsteroide = False
+setimoAsteroide = False
 
 # LOOPING DO JOGO
 while True:
@@ -94,12 +103,48 @@ while True:
 
         NAVE.mostrarNave(TELA, PLAYER)
         PLAYER.vidasJogador(TELA)
-        ASTEROIDE_1.aparecerAsteroide(TELA)
-        ASTEROIDE_2.aparecerAsteroide(TELA)
-        ASTEROIDE_3.aparecerAsteroide(TELA) 
-        ASTEROIDE_4.aparecerAsteroide(TELA)
-        ASTEROIDE_5.aparecerAsteroide(TELA)
-        ASTEROIDE_6.aparecerAsteroide(TELA)
+        if aparecimentoAsteroides == 50:
+            primeiroAsteroide = True
+            
+        if aparecimentoAsteroides == 100:
+            segundoAsteroide = True
+
+        if aparecimentoAsteroides == 150:
+            terceiroAsteroide = True
+
+        if aparecimentoAsteroides == 200:
+            quartoAsteroide = True
+
+        if aparecimentoAsteroides == 250:
+            quintoAsteroide = True
+
+        if aparecimentoAsteroides == 300:
+            sextoAsteroide = True
+
+        if aparecimentoAsteroides == 350:
+            setimoAsteroide = True
+
+
+        if primeiroAsteroide:
+            ASTEROIDE_1.aparecerAsteroide(TELA)
+
+        if segundoAsteroide:
+            ASTEROIDE_2.aparecerAsteroide(TELA)
+
+        if terceiroAsteroide:
+            ASTEROIDE_3.aparecerAsteroide(TELA) 
+
+        if quartoAsteroide:
+            ASTEROIDE_4.aparecerAsteroide(TELA)
+
+        if quintoAsteroide:
+            ASTEROIDE_5.aparecerAsteroide(TELA)
+
+        if sextoAsteroide:
+            ASTEROIDE_6.aparecerAsteroide(TELA)
+
+        if setimoAsteroide:
+            ASTEROIDE_7.aparecerAsteroide(TELA)   
 
         # Mostra a nave inimiga e seus disparos
         if NAVEINIMIGA.tempoSurgimento():
@@ -111,7 +156,7 @@ while True:
             DISPAROINIMIGO.trajetoria()
             DISPAROINIMIGO.disparar(TELA)  
             
-        DISPAROINIMIGO.ajusteDisparo(NAVEINIMIGA)
+        DISPAROINIMIGO.ajusteDisparo()
 
         # Mostra os buffs na tela
         if BUFFS.contador():
@@ -142,12 +187,12 @@ while True:
         # Funcionamento das teclas para mover a nave
         if pygame.key.get_pressed()[K_LEFT]:
             NAVE.andarEsquerda(PLAYER)    
-            NAVEINIMIGA.moverNaveInimigaEsquerda()
+            
         
         elif pygame.key.get_pressed()[K_RIGHT]:
             NAVE.andarDireita(PLAYER)
-            NAVEINIMIGA.moverNaveInimigaDireita()
-
+            
+        NAVEINIMIGA.posicaoNave(NAVE)
 
         # SISTEMAS DE COLISÃO DE OBJETOS
 
@@ -158,6 +203,7 @@ while True:
         PLAYER.colisaoNaveJogador(NAVE, ASTEROIDE_4)
         PLAYER.colisaoNaveJogador(NAVE, ASTEROIDE_5)
         PLAYER.colisaoNaveJogador(NAVE, ASTEROIDE_6)
+        PLAYER.colisaoNaveJogador(NAVE, ASTEROIDE_7)
         NAVE.naveDanificada(TELA)
         
         
@@ -169,7 +215,7 @@ while True:
             PLAYER.colisaoDisparoJogador(DISPAROPLAYER, ASTEROIDE_4)
             PLAYER.colisaoDisparoJogador(DISPAROPLAYER, ASTEROIDE_5)
             PLAYER.colisaoDisparoJogador(DISPAROPLAYER, ASTEROIDE_6)
-            
+            PLAYER.colisaoDisparoJogador(DISPAROPLAYER, ASTEROIDE_7)
      
     
        # SISTEMA DE EXECUÇÃO DE PODERES DOS BUFFS
@@ -216,8 +262,19 @@ while True:
                     ASTEROIDE_3.recomecarJogo()
                     ASTEROIDE_4.recomecarJogo()
                     ASTEROIDE_5.recomecarJogo()
-                    ASTEROIDE_6 .recomecarJogo()
+                    ASTEROIDE_6.recomecarJogo()
+                    ASTEROIDE_7.recomecarJogo()
                     
                     BUFFS.recomecarJogo()
 
+                    aparecimentoAsteroides = 0
+                    primeiroAsteroide = False
+                    segundoAsteroide = False 
+                    terceiroAsteroide = False
+                    quartoAsteroide = False
+                    quintoAsteroide = False
+                    sextoAsteroide = False
+                    setimoAsteroide = False
+
     pygame.display.update()
+    aparecimentoAsteroides += 1

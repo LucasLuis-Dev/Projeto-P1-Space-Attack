@@ -254,7 +254,7 @@ class Nave():
         else:
             self.tocarSomExplosao = True
             return True
-        
+
     
     def naveDanificada(self, tela):
         '''
