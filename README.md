@@ -1,6 +1,6 @@
 # Projeto P1-Space Attack:rocket:
 
-<img src="https://cdn.discordapp.com/attachments/965066624556232737/1039036416144969779/Space_Attack_1.png">
+<img src="https://cdn.discordapp.com/attachments/965066624556232737/1041040696058060851/Space_Attack_3.png">
 <hr>
 
 ## Descrição :page_facing_up:
@@ -15,7 +15,6 @@ Space Attack é um sistema interativo, inspirado em Star Wars, que consiste em u
 Neste projeto, foram aplicados conhecimentos aprendidos durante todo o período na cadeira de Programação 1, que vai desde a lógica de programação até programação orientada ao objeto na linguagem de programação Python. Também foi utilizada a biblioteca pygame, para possibilitar a criação deste modelo de sistema interativo,  gerando uma compreensão acerca de jogos 2D que pôde ser bem representada com o projeto.
 
 O projeto foi realizado em grupo de 6 pessoas, cujo os integrantes são: 
-- Daniel Zamboni 
 - Erick Daniel 
 - Karen Verçosa 
 - Lucas Luis 
@@ -124,19 +123,19 @@ O jogo acaba assim que as três vidas são perdidas.
 
 ## Imagens do Space attack :space_invader:
 
-<img width="500px" src="https://cdn.discordapp.com/attachments/965066624556232737/1039190590950232064/WhatsApp_Image_2022-11-07_at_11.48.05.jpeg">
+<img width="500px" src="https://cdn.discordapp.com/attachments/965066624556232737/1041072695858712656/Captura_de_tela_2022-11-12_160002.png">
      
-<img width="500px" src="https://cdn.discordapp.com/attachments/965066624556232737/1039190590656622794/WhatsApp_Image_2022-11-07_at_11.48.05_1.jpeg">
+<img width="500px" src="https://cdn.discordapp.com/attachments/965066624556232737/1041072696215224371/Captura_de_tela_2022-11-12_161856_2.png">
 
-<img width="500px" src="https://cdn.discordapp.com/attachments/965066624556232737/1039190590421749770/WhatsApp_Image_2022-11-07_at_11.48.05_2.jpeg">
+<img width="500px" src="https://cdn.discordapp.com/attachments/965066624556232737/1041072696546578432/Captura_de_tela_2022-11-12_161922_2.png">
 
-<img width="500px" src="https://cdn.discordapp.com/attachments/965066624556232737/1039190590220402728/WhatsApp_Image_2022-11-07_at_11.48.06.jpeg">
+<img width="500px" src="https://cdn.discordapp.com/attachments/965066624556232737/1041072697330909265/Captura_de_tela_2022-11-12_162018_3.png">
 
-<img width="500px" src="https://cdn.discordapp.com/attachments/965066624556232737/1039190589788409947/WhatsApp_Image_2022-11-07_at_11.48.07.jpeg">
+<img width="500px" src="https://cdn.discordapp.com/attachments/965066624556232737/1041072697700012063/Captura_de_tela_2022-11-12_162044_2.png">
 
-<img width="500px" src="https://cdn.discordapp.com/attachments/965066624556232737/1039190589545132052/WhatsApp_Image_2022-11-07_at_11.48.07_1.jpeg">
+<img width="500px" src="https://cdn.discordapp.com/attachments/965066624556232737/1041072698014568540/Captura_de_tela_2022-11-12_162137_2.png">
 
-<img width="500px" src="https://cdn.discordapp.com/attachments/965066624556232737/1039190589301870653/WhatsApp_Image_2022-11-07_at_11.48.07_2.jpeg">
+<img width="500px" src="https://cdn.discordapp.com/attachments/965066624556232737/1041072698333347880/Captura_de_tela_2022-11-12_162211_3.png">
 
-<img width="500px" src="https://cdn.discordapp.com/attachments/965066624556232737/1039190589054398514/WhatsApp_Image_2022-11-07_at_11.48.08.jpeg">
+<img width="500px" src="https://cdn.discordapp.com/attachments/965066624556232737/1041072696915660810/Captura_de_tela_2022-11-12_161958_3.png">
 
