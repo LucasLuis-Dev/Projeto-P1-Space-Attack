@@ -1,6 +1,7 @@
 import pygame
 from random import randint
-from Modulo_Jogador import Nave, jogador, DisparoNave
+from Modulo_Jogador import Jogador
+from Modulo_NaveJogador import Nave, DisparoNave
 from Modulo_Buffs import Buffs
 from Modulo_NaveInimiga import NaveInimiga, disparoNaveInimiga
 from Modulo_Asteroides import Asteroides
@@ -42,7 +43,7 @@ pygame.display.set_caption("Space Attack")
 # CONSTANTES DAS CLASSES UTILIZADAS NO JOGO
 
 NAVE = Nave()
-PLAYER = jogador()
+PLAYER = Jogador()
 BUFFS = Buffs()
 NAVEINIMIGA = NaveInimiga()
 DISPAROINIMIGO = disparoNaveInimiga(NAVEINIMIGA)
